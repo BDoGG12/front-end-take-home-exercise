@@ -8,9 +8,8 @@ const UserInput = (props) => {
     <Form.Label>{props.label}</Form.Label>
     <Form.Control
       required
-      type='text'
+      type={props.type}
       placeholder={props.label}
-      defaultValue={props.defaultValue}
       />
     </>
   )
