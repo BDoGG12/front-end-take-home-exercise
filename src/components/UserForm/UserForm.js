@@ -1,20 +1,22 @@
 import React, { useState, useRef, useEffect } from "react";
-import {Button, Col, Form, InputGroup, Row} from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Row from 'react-bootstrap/Row';
 import UserInput from '../Input/UserInput';
 import OccupationDropdown from '../Input/OccupationDropdown';
 import StateDropdown from '../Input/StateDropdown';
-import axios from 'axios';
 
 
-const UserForm = () => {
+const UserForm = (props) => {
 
-  const url = 'https://frontend-take-home.fetchrewards.com/form';
-  const [formData, setFormData] = useState({});
   const firstName = useRef();
   const lastName = useRef();
   const password = useRef();
   const [state, setState] = useState('');
   const [occupation, setOccupation] = useState('');
+  const [validated, setValidated] = useState(false);
 
   const firstNameLabel = 'First Name';
   const lastNameLabel = 'Last Name';
@@ -30,36 +32,27 @@ const UserForm = () => {
     setOccupation(e.target.currentValue);
   };
 
-  useEffect(() => {
-    axios({
-      method: 'get',
-      url: url,
-    })
-    .then((response) => {
-      setFormData(response)
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  });
 
-  const onEnter = () => {
+
+  const handleSubmit = () => {
 
   };
 
   return (
-    <Form>
+    <div>
+      <Form noValidate validated={validated} onSubmit={handleSubmit}>
       <Row className='name-password'>
       <UserInput label={firstNameLabel} type='text' />
       <UserInput label={lastNameLabel} type='text' />
       <UserInput label={passwordLabel} type='password' />
       </Row>
       <Row>
-        <OccupationDropdown label={occupationLabel} data={formData} onOccupationClick={onOccupationChange} />
-        <StateDropdown label={stateLabel} data={formData} onStateClick={onStateChange} />
+        <OccupationDropdown label={occupationLabel} onOccupationClick={onOccupationChange} data={props.data.occupations} />
+        <StateDropdown label={stateLabel} onStateClick={onStateChange} data={props.data.states} />
       </Row>
       <Button type='submit'>Submit</Button>
     </Form>
+    </div>
   );
 };
 
