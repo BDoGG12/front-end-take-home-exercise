@@ -12,12 +12,10 @@ const OccupationDropdown = (props) => {
 
   return (
     <>
-    <Form.Select aria-label={props.label} onChange={onValueChange}>
-    {onValueChange}>
-        <option value=''>State</option>
-        {props.data.occupations.map((item) => (
-          <option value={item}>{item}</option>
-        ))}
+    <Form.Select aria-label={props.label}>
+        <option value=''>{props.label}</option>
+        {props.data.map(item => (
+        <option value={item} key={item}>{item}</option>))}
     </Form.Select>
     </>
   )
