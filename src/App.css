@@ -1,9 +1,8 @@
 .App {
   text-align: center;
-  background-color: #282c34;
-  color: black;
+  background-color: wheat;
 }
 
 .App-header {
-  color: black;
+  font-size: large;
 }
