@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -11,9 +11,9 @@ import StateDropdown from '../Input/StateDropdown';
 
 const UserForm = (props) => {
 
-  const firstName = useRef();
-  const lastName = useRef();
-  const password = useRef();
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [password, setPassword] = useState('');
   const [state, setState] = useState('');
   const [occupation, setOccupation] = useState('');
   const [validated, setValidated] = useState(false);
@@ -24,12 +24,24 @@ const UserForm = (props) => {
   const occupationLabel = 'Occupation';
   const stateLabel = 'State';
 
-  const onStateChange = (e) => {
-    setState(e.target.currentValue);
+  const onFirstNameChange = (firstName) => {
+    setFirstName(firstName);
   };
 
-  const onOccupationChange = (e) => {
-    setOccupation(e.target.currentValue);
+  const onLastNameChange = (lastName) => {
+    setLastName(lastName);
+  };
+
+  const onPasswordChange = (password) => {
+    setPassword(password);
+  };
+
+  const onStateChange = (state) => {
+    setState(state);
+  };
+
+  const onOccupationChange = (occupation) => {
+    setOccupation(occupation);
   };
 
 
@@ -42,9 +54,9 @@ const UserForm = (props) => {
     <div>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
       <Row className='name-password'>
-      <UserInput label={firstNameLabel} type='text' />
-      <UserInput label={lastNameLabel} type='text' />
-      <UserInput label={passwordLabel} type='password' />
+      <UserInput label={firstNameLabel} type='text' onInputChange={onFirstNameChange} />
+      <UserInput label={lastNameLabel} type='text' onInputChange={onLastNameChange} />
+      <UserInput label={passwordLabel} type='password' onInputChange={onPasswordChange} />
       </Row>
       <Row>
         <OccupationDropdown label={occupationLabel} onOccupationClick={onOccupationChange} data={props.data.occupations} />
