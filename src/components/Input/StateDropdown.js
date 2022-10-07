@@ -14,7 +14,7 @@ const StateDropdown = (props) => {
     <>
       <Form.Select aria-label={props.label} onChange={onValueChange}>
         <option value=''>{props.label}</option>
-        {props.data.map(item => (
+        {props.data?.map(item => (
         <option value={item.abbreviation} key={item.abbreviation}>{item.abbreviation}</option>))}
       </Form.Select>
     </>

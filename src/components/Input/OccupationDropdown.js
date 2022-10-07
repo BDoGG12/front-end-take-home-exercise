@@ -14,7 +14,7 @@ const OccupationDropdown = (props) => {
     <>
     <Form.Select aria-label={props.label}>
         <option value=''>{props.label}</option>
-        {props.data.map(item => (
+        {props.data?.map(item => (
         <option value={item} key={item}>{item}</option>))}
     </Form.Select>
     </>
