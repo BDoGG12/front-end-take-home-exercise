@@ -3,11 +3,8 @@ import { useState } from 'react';
 
 const StateDropdown = (props) => {
 
-  const [value, setValue] = useState('');
-
   const onValueChange = (e) => {
-    setValue(e.target.value);
-    props.onStateClick(value)
+    props.onStateClick(e.target.value)
   };
 
   return (
