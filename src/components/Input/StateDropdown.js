@@ -1,5 +1,5 @@
 import { Form } from 'react-bootstrap';
-import { useState } from 'react';
+import { useState, Fragment } from 'react';
 
 const StateDropdown = (props) => {
 
@@ -8,13 +8,19 @@ const StateDropdown = (props) => {
   };
 
   return (
-    <>
-      <Form.Select aria-label={props.label} onChange={onValueChange}>
-        <option value=''>{props.label}</option>
+    <Fragment>
+      <Form.Label>{props.label}</Form.Label>
+      <Form.Select
+        aria-label={props.label}
+        onChange={onValueChange}
+        required
+      >
+        <option value=''>Select State</option>
         {props.data?.map(item => (
-        <option value={item.abbreviation} key={item.abbreviation}>{item.abbreviation}</option>))}
+          <option value={item.abbreviation} key={item.abbreviation}>{item.abbreviation}</option>))}
       </Form.Select>
-    </>
+      {props.validate ? <Form.Control.Feedback>Looks good!</Form.Control.Feedback> : <Form.Control.Feedback type='invalid'>Please provide a {props.label}</Form.Control.Feedback>}
+    </Fragment>
   )
 };
 
