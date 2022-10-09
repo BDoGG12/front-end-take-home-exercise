@@ -1,0 +1,16 @@
+.menu {
+  color: white;
+}
+
+.link {
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.menu li {
+  display: inline-block;
+  padding: 14px 16px;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
