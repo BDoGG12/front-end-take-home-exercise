@@ -30,7 +30,7 @@ function App() {
       <MenuBar />
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/sign-up' element={<UserForm data={formData} />} />
+        <Route path='/sign-up' element={<UserForm data={formData} url={url} />} />
       </Routes>
     </div>
   );
