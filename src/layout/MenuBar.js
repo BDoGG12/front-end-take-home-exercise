@@ -1,14 +1,21 @@
-import {Container, Nav, Navbar, NavDropdown} from 'react-bootstrap';
+import {Container, Nav, Navbar} from 'react-bootstrap';
+import {Fragment} from 'react';
+import classes from './MenuBar.module.css';
 
 const MenuBar = () => {
 
   return (
-    <Navbar expand='lg'>
-      <Container>
-        <Navbar.Brand href='/'>Home</Navbar.Brand>
-        <Navbar.Brand href='/sign-up'>Sign Up</Navbar.Brand>
-      </Container>
-    </Navbar>
+    <Fragment>
+      <Navbar bg='light' variant='dark' expand='lg'>
+        <Container>
+          <Navbar.Brand href='/'>Fetch Rewards</Navbar.Brand>
+          <Nav className={classes['menu']}>
+            <Nav.Link href='/'>Home</Nav.Link>
+            <Nav.Link href='/sign-up'>Sign Up</Nav.Link>
+          </Nav>
+        </Container>
+      </Navbar>
+    </Fragment>
   )
 }
 
