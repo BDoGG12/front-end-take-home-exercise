@@ -1,8 +1,9 @@
 import React, { useState, Fragment } from "react";
-import {Button, Col, Form, InputGroup, Row, Alert} from 'react-bootstrap';
+import { Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap';
 import UserInput from '../Input/UserInput';
 import OccupationDropdown from '../Input/OccupationDropdown';
 import StateDropdown from '../Input/StateDropdown';
+import FeedbackModal from '../../layout/FeedbackModal';
 import axios from 'axios';
 
 
@@ -24,6 +25,7 @@ const UserForm = (props) => {
   const [stateValidated, setStateValidated] = useState(false);
   const [occupationValidated, setOccupationValidated] = useState(false);
   const [validated, setValidated] = useState(false);
+  const [show, setShow] = useState(false);
 
   const firstNameLabel = 'First Name';
   const lastNameLabel = 'Last Name';
@@ -31,6 +33,13 @@ const UserForm = (props) => {
   const passwordLabel = 'Password'
   const occupationLabel = 'Occupation';
   const stateLabel = 'State';
+
+  const handleClose = () => {
+    setShow(false)
+  };
+  const handleShow = () => {
+    setShow(true);
+  };
 
   const onFirstNameChange = (firstName) => {
     setFirstName(firstName);
@@ -58,33 +67,32 @@ const UserForm = (props) => {
 
   const handleSubmit = (e) => {
     const form = e.currentTarget;
-    if (firstName === '' && lastName === '' && email === '' && password === '' && occupation === '' & state === '') {
+    if (firstName === '' || lastName === '' || email === '' || password === '' || occupation === '' || state === '') {
       setValidated(false);
-      setFirstNameValidated(false);
-      setLastNameValidated(false);
-      setEmailValidated(false);
-      setPasswordValidated(false);
-      setOccupationValidated(false);
-      setStateValidated(false);
       e.preventDefault();
       e.stopPropagation();
-      console.log('could not send post request');
     } else {
-      console.log('sent post request');
-      setValidated(true);
-      axios({
-        method: 'post',
-        url: props.url,
-        data: {
-          name: `${firstName} ${lastName}`,
-          email: email,
-          password: password,
-          occupation: occupation,
-          state: state
-        }
-      })
+      if (firstName !== '' && lastName !== '' && email !== '' && password !== '' && occupation !== '' && state !== '') {
+        setValidated(true);
+        setFirstNameValidated(true);
+        setLastNameValidated(true);
+        setEmailValidated(true);
+        setPasswordValidated(true);
+        setOccupationValidated(true);
+        setStateValidated(true);
+        axios({
+          method: 'post',
+          url: props.url,
+          data: {
+            name: `${firstName} ${lastName}`,
+            email: email,
+            password: password,
+            occupation: occupation,
+            state: state
+          }
+        });
+      }
     }
-
   };
 
   return (
@@ -94,19 +102,23 @@ const UserForm = (props) => {
           <UserInput
             label={firstNameLabel}
             type='text'
-            onInputChange={onFirstNameChange} />
+            onInputChange={onFirstNameChange}
+            validate={firstNameValidated} />
           <UserInput
             label={lastNameLabel}
             type='text'
-            onInputChange={onLastNameChange} />
+            onInputChange={onLastNameChange}
+            validate={lastNameValidated} />
           <UserInput
             label={emailLabel}
             type='email'
-            onInputChange={onEmailChange} />
+            onInputChange={onEmailChange}
+            validate={emailValidated} />
           <UserInput
             label={passwordLabel}
             type='password'
-            onInputChange={onPasswordChange} />
+            onInputChange={onPasswordChange}
+            validate={passwordValidated} />
         </Row>
         <Row>
           <OccupationDropdown
@@ -120,7 +132,9 @@ const UserForm = (props) => {
         </Row>
         <Button
           variant='primary'
-          type='submit'>Submit</Button>
+          type='submit'
+          onClick={handleShow}>Submit</Button>
+        {validated ? <FeedbackModal show={show} hide={handleClose} title='Sign up Success!' body='Congratulations! Earn rewards by shopping off of the brands you love!' /> : <FeedbackModal show={show} hide={handleClose} title='Sorry, Sign up Unsuccessful.' body='You must complete all fields!' />}
       </Form>
     </Fragment>
   );
