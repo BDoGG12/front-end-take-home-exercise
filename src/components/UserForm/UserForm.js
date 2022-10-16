@@ -1,5 +1,5 @@
 import React, { useState, Fragment } from "react";
-import { Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap';
+import { Button, Form, Row } from 'react-bootstrap';
 import UserInput from '../Input/UserInput';
 import OccupationDropdown from '../Input/OccupationDropdown';
 import StateDropdown from '../Input/StateDropdown';
@@ -65,12 +65,9 @@ const UserForm = (props) => {
     setOccupation(occupation);
   };
 
-  const handleSubmit = (e) => {
-    const form = e.currentTarget;
+  const validateInput = () => {
     if (firstName === '' || lastName === '' || email === '' || password === '' || occupation === '' || state === '') {
       setValidated(false);
-      e.preventDefault();
-      e.stopPropagation();
     } else {
       if (firstName !== '' && lastName !== '' && email !== '' && password !== '' && occupation !== '' && state !== '') {
         setValidated(true);
@@ -80,18 +77,28 @@ const UserForm = (props) => {
         setPasswordValidated(true);
         setOccupationValidated(true);
         setStateValidated(true);
-        axios({
-          method: 'post',
-          url: props.url,
-          data: {
-            name: `${firstName} ${lastName}`,
-            email: email,
-            password: password,
-            occupation: occupation,
-            state: state
-          }
-        });
       }
+    }
+  };
+
+
+  const handleSubmit = (e) => {
+    console.log(e.currentTarget.value);
+    e.preventDefault();
+    e.stopPropagation();
+    validateInput();
+    if (validated === true) {
+      axios({
+        method: 'post',
+        url: props.url,
+        data: {
+          name: `${firstName} ${lastName}`,
+          email: email,
+          password: password,
+          occupation: occupation,
+          state: state
+        }
+      });
     }
   };
 
@@ -124,11 +131,13 @@ const UserForm = (props) => {
           <OccupationDropdown
             label={occupationLabel}
             onOccupationClick={onOccupationChange}
-            data={props.data.occupations} />
+            data={props.data.occupations}
+            validate={occupationValidated} />
           <StateDropdown
             label={stateLabel}
             onStateClick={onStateChange}
-            data={props.data.states} />
+            data={props.data.states}
+            validate={stateValidated} />
         </Row>
         <Button
           variant='primary'
